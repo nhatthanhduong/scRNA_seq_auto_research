@@ -10,13 +10,14 @@ Pipeline: QC → Normalize+log1p → HVG → Scale → PCA → Neighbors → Lei
 
 ## Setup
 
-1. **Tag**: `exp_001`, `exp_002`, ...
-2. **Data**: verify `data/lims_lung_celltype_demo.h5ad` exists, else `uv run prepare.py`
-3. **Read**: `train.py` (only file you edit, only hyperparameter values), `prepare.py` (do not touch), `pyproject.toml` (no new packages)
+- Run on branch `autoresearch/may26`
+- Verify `data/lims_lung_celltype_demo.h5ad` exists; if not `uv run prepare.py`
+- Read `train.py` — only file you edit. Only change `AutoResearchConfig` values.
+- DO NOT modify `prepare.py`, `pyproject.toml`, or pipeline logic.
 
-## Hyperparameter Search Space
+## Search Space
 
-Edit `AutoResearchConfig` in `train.py` (lines 20–52). Only these 13 params are tunable:
+Edit `AutoResearchConfig` (train.py lines 20–52). Tunable params:
 
 | Param | Type | Range | Default |
 |-------|------|-------|---------|
@@ -28,52 +29,73 @@ Edit `AutoResearchConfig` in `train.py` (lines 20–52). Only these 13 params ar
 | `target_sum` | int | [1e4, 1e5] | 10000 |
 | `n_top_genes` | int | [1000, 5000] | 1000 |
 | `n_pcs` | int | [20, 90] | 50 |
-| `svd_solver` | str | `"arpack"` or `"randomized"` | `"arpack"` |
+| `svd_solver` | str | `"arpack"` / `"randomized"` | `"arpack"` |
 | `n_neighbors` | int | [10, 50] | 10 |
-| `metric` | str | `"cosine"` or `"euclidean"` | `"cosine"` |
+| `metric` | str | `"cosine"` / `"euclidean"` | `"cosine"` |
 | `resolution` | float | [0.2, 2.0] | 1.0 |
 | `random_seed` | int | any | 42 |
 
-**Do not change**: `flavor` (`"seurat"`), `batch_key` (`None`), `do_scale` (`True`), `max_value` (`10.0`)
+**Do not touch**: `flavor`, `batch_key`, `do_scale`, `max_value`
 
-## First Run (Baseline)
+## First Run
 
 ```
-uv run train.py
+uv run train.py 2>&1 | tee run.log
 ```
 
 ## Experiment Loop
 
-Repeat until 200 runs. Each iteration:
+LOOP FOREVER:
 
-1. **Tune** — pick 1–3 params, set new values within ranges above
-2. **Edit** — change defaults in `AutoResearchConfig` in `train.py`
-3. **Run** — `uv run train.py`
-4. **Read score** — parse JSON stdout or `output/scores.json`
-5. **Keep/Discard/Commit**:
-   - Score > best → **Keep** (new best), **git commit** with message `exp_<tag>: new best objective=<score> with <params>=<vals>, ...`
-   - Score ≤ best → **Discard** (revert `train.py` to previous best config)
-   - Crash → **Discard** (revert), log sentinel row
-6. **Log** — auto-logged on success; manual CSV append on crash
-7. **Repeat** — increment tag
+1. **Look at git state** — note the current branch/commit
+2. **Tune** — pick 1–3 params, directly hack the defaults in `AutoResearchConfig`
+3. **Commit** — `git add -A && git commit -m "exp_N: try <params>=<vals>"` (commit everything)
+4. **Run** — `uv run train.py > run.log 2>&1` (redirect everything, NO tee, NO output flood)
+5. **Read results** — grep the scores from the JSON in `run.log`. If `objective` found, extract it
+6. **If empty (crash)** — `tail -n 50 run.log` to see stack trace. If it's a dumb bug (typo, missing import) fix it and re-run. If fundamentally broken, log "crash" in the tsv and move on
+7. **Record** — append row to `results.tsv` (tab-separated). DO NOT commit `results.tsv`, leave it untracked
+8. **Keep/Discard**:
+   - If `objective` improved (higher) → advance, keep the commit
+   - If `objective` equal or worse → `git reset --hard HEAD~1` (discard the commit, revert code)
+   - If crash → `git reset --hard HEAD~1` (discard the commit)
+9. **NEVER STOP** (go to step 1)
 
 ```
-Tune → Edit → Run → Evaluate →
-  if better: Keep + git commit
-  if worse:  Discard (revert)
-  if crash:  Discard, log -999
-→ Log → Repeat
+Look at git state → Tune → Commit → Run → Read score →
+  if improved: Keep commit
+  if worse/crash: git reset --hard HEAD~1
+→ Record in tsv → Repeat (forever)
 ```
 
-## Stopping
+## Rules
 
-200 iterations total. If >10 crashes in a row, stop early.
+- **NEVOR STOP**: Once the loop begins, do NOT pause to ask the human. Do NOT ask "should I continue?". The human might be asleep. You are autonomous. If out of ideas, think harder. Loop until manually interrupted.
+- **Timeout**: Each run should take ~5 min. If >10 min, kill it, treat as failure, revert.
+- **TSV, not CSV**: Append tab-separated rows to `results.tsv`. Do not commit this file.
+- **Commit every try**: git commit BEFORE running. This way you can always `git reset --hard HEAD~1` to revert.
+- **Crashes**: Dumb bug (typo, missing import)? Fix it, re-run. Fundamental broken idea? Log "crash", revert, move on.
+- **No scripts**: Do NOT write automation scripts. Hack `train.py` directly.
 
 ## Quick Reference
 
 ```bash
-uv run train.py                                            # run pipeline
-uv run train.py 2>&1 | python -c "import sys,json; print(json.load(sys.stdin)['objective'])"  # parse score
-cat output/scores.json                                     # latest scores
-cat output/results.csv                                     # experiment history
-git add -A && git commit -m "exp_N: new best objective=..." # commit new best
+# Create branch
+git checkout -b autoresearch/may26
+
+# Initial commit of working state
+git add -A && git commit -m "exp_001: baseline defaults"
+
+# Run
+uv run train.py > run.log 2>&1
+
+# Parse score
+python -c "import sys,json; d=json.load(open('run.log')); print(d.get('objective','CRASH'))"
+
+# See crash
+tail -n 50 run.log
+
+# If worse/crash, revert
+git reset --hard HEAD~1
+
+# Record results (tab-separated, do NOT commit)
+echo -e "exp_002\t0.535\tresolution=0.8,n_neighbors=25" >> results.tsv

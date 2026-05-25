@@ -29,7 +29,7 @@ class AutoResearchConfig:
     target_sum: int = 1e4
 
     # --Highly Variable Genes--
-    n_top_genes: int = 3000
+    n_top_genes: int = 1000
 
     # --Scaling--
     do_scale: bool = True
@@ -40,11 +40,11 @@ class AutoResearchConfig:
     svd_solver: str = "arpack"
 
     # --Neighborhood Graph--
-    n_neighbors: int = 30
+    n_neighbors: int = 10
     metric: str = "cosine"
 
     # --Clustering--
-    resolution: float = 1.5
+    resolution: float = 1.0
 
     #--Misc--
     random_seed: int = 42
