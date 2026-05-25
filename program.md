@@ -20,16 +20,16 @@ Edit `AutoResearchConfig` in `train.py` (lines 20–52). Only these 13 params ar
 
 | Param | Type | Range | Default |
 |-------|------|-------|---------|
-| `min_genes` | int | [100, 500] | 200 |
-| `max_genes` | int | [4000, 8000] | 6000 |
+| `min_genes` | int | [100, 500] | 100 |
+| `max_genes` | int | [4000, 8000] | 5000 |
 | `min_counts` | int | [200, 1000] | 500 |
 | `max_counts` | int | [30000, 80000] | 50000 |
 | `max_pct_mt` | float | [5.0, 20.0] | 10.0 |
 | `target_sum` | int | [1e4, 1e5] | 10000 |
-| `n_top_genes` | int | [1000, 5000] | 2000 |
-| `n_pcs` | int | [20, 90] | 30 |
+| `n_top_genes` | int | [1000, 5000] | 1000 |
+| `n_pcs` | int | [20, 90] | 50 |
 | `svd_solver` | str | `"arpack"` or `"randomized"` | `"arpack"` |
-| `n_neighbors` | int | [15, 50] | 15 |
+| `n_neighbors` | int | [10, 50] | 10 |
 | `metric` | str | `"cosine"` or `"euclidean"` | `"cosine"` |
 | `resolution` | float | [0.2, 2.0] | 1.0 |
 | `random_seed` | int | any | 42 |
