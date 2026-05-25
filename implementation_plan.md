@@ -100,6 +100,24 @@ No unit tests. Validation is performed by running `uv run train.py` and checking
 
 If the script crashes, the agent should note the hyperparameter choice, log the crash, and move on.
 
+## Version Control
+
+Whenever the evaluation score improves (a new best objective score is found), commit the repository to git with a descriptive message recording the new best configuration and score. This creates a versioned history of improvements that can be reviewed later.
+
+**Commit messages** should follow this format:
+```
+exp_<tag>: new best objective=<score> with <param1>=<value>, <param2>=<value>, ...
+```
+
+For example:
+```
+exp_005: new best objective=0.598 with resolution=0.5, n_neighbors=25
+```
+
+The `.gitignore` should exclude the `output/` directory (which contains run artifacts, scores, and logs) — only `train.py` (the config file) and other source files should be tracked.
+
+**Important**: Commits should only be made when a new best score is achieved, not on every run. This keeps the git history clean and focused on meaningful improvements.
+
 ## Implementation Order
 
 1. **Write `program.md`** — Create the full instruction document for the AI agent following the structure described above

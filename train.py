@@ -19,32 +19,32 @@ import scanpy as sc
 @dataclass
 class AutoResearchConfig:
     # --QC--
-    min_genes: int = 200
-    max_genes: int = 6000
+    min_genes: int = 100
+    max_genes: int = 5000
     min_counts: int = 500
     max_counts: int = 50000
-    max_pct_mt: int = 10
+    max_pct_mt: float = 10.0
 
     # --Normalization--
     target_sum: int = 1e4
 
     # --Highly Variable Genes--
-    n_top_genes: int = 3000
+    n_top_genes: int = 1000
 
     # --Scaling--
     do_scale: bool = True
     max_value: Optional[float] = 10.0
 
     # --PCA--
-    n_pcs: int = 30
+    n_pcs: int = 50
     svd_solver: str = "arpack"
 
     # --Neighborhood Graph--
-    n_neighbors: int = 15
+    n_neighbors: int = 10
     metric: str = "cosine"
 
     # --Clustering--
-    resolution: float = 0.6
+    resolution: float = 1.0
 
     #--Misc--
     random_seed: int = 42
