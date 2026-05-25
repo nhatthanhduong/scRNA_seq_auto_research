@@ -1,1 +1,2 @@
 exp_001	0.508	baseline defaults
+exp_004	0.544	worse: resolution=2.0,svd_solver=randomized
