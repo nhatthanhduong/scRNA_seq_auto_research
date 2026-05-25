@@ -1,0 +1,16 @@
+[project]
+name = "lims-single-cell"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "anndata>=0.11.4",
+    "cellxgene-census>=1.17.0",
+    "matplotlib>=3.10.9",
+    "numpy>=2.2.6",
+    "pandas>=2.3.3",
+    "scanpy[leiden]>=1.11.5",
+    "scikit-learn>=1.7.2",
+    "seaborn>=0.13.2",
+]
