@@ -40,11 +40,11 @@ class AutoResearchConfig:
     svd_solver: str = "randomized"
 
     # --Neighborhood Graph--
-    n_neighbors: int = 50
+    n_neighbors: int = 45
     metric: str = "euclidean"
 
     # --Clustering--
-    resolution: float = 1.0
+    resolution: float = 0.8
 
     #--Misc--
     random_seed: int = 42
