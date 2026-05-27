@@ -23,13 +23,13 @@ class AutoResearchConfig:
     max_genes: int = 100000
     min_counts: int = 10
     max_counts: int = 100000
-    max_pct_mt: float = 1
+    max_pct_mt: float = 20.0
 
     # --Normalization--
     target_sum: int = 1000
 
     # --Highly Variable Genes--
-    n_top_genes: int = 100
+    n_top_genes: int = 2000
 
     # --Scaling--
     do_scale: bool = True
@@ -44,7 +44,7 @@ class AutoResearchConfig:
     metric: str = "cosine"
 
     # --Clustering--
-    resolution: float = 0.1
+    resolution: float = 0.8
 
     #--Misc--
     random_seed: int = 42
