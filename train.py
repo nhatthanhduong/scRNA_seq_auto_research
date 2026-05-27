@@ -19,7 +19,7 @@ import scanpy as sc
 @dataclass
 class AutoResearchConfig:
     # --QC--
-    min_genes: int = 1
+    min_genes: int = 100
     max_genes: int = 100000
     min_counts: int = 10
     max_counts: int = 100000
