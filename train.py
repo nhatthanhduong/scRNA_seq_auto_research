@@ -40,11 +40,11 @@ class AutoResearchConfig:
     svd_solver: str = "arpack"
 
     # --Neighborhood Graph--
-    n_neighbors: int = 30
+    n_neighbors: int = 50
     metric: str = "euclidean"
 
     # --Clustering--
-    resolution: float = 0.8
+    resolution: float = 0.6
 
     #--Misc--
     random_seed: int = 42
