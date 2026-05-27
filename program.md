@@ -21,18 +21,18 @@ Edit `AutoResearchConfig` (train.py lines 20–52). Tunable params:
 
 | Param | Type | Range | Default |
 |-------|------|-------|---------|
-| `min_genes` | int | [100, 500] | 100 |
-| `max_genes` | int | [4000, 8000] | 5000 |
-| `min_counts` | int | [200, 1000] | 500 |
-| `max_counts` | int | [30000, 80000] | 50000 |
-| `max_pct_mt` | float | [5.0, 20.0] | 10.0 |
-| `target_sum` | int | [1e4, 1e5] | 10000 |
-| `n_top_genes` | int | [1000, 5000] | 1000 |
-| `n_pcs` | int | [20, 90] | 50 |
+| `min_genes` | int | any | 1 |
+| `max_genes` | int | any | 10 |
+| `min_counts` | int | any | 100 |
+| `max_counts` | int | any | 1000 |
+| `max_pct_mt` | float | [1, 100] | 1 |
+| `target_sum` | int | any | 1000 |
+| `n_top_genes` | int | any | 100 |
+| `n_pcs` | int | any | 10 |
 | `svd_solver` | str | `"arpack"` / `"randomized"` | `"arpack"` |
-| `n_neighbors` | int | [10, 50] | 10 |
+| `n_neighbors` | int | any | 20 |
 | `metric` | str | `"cosine"` / `"euclidean"` | `"cosine"` |
-| `resolution` | float | [0.2, 2.0] | 1.0 |
+| `resolution` | float | [0.1, 10.0] | 0.1 |
 | `random_seed` | int | any | 42 |
 
 **Do not touch**: `flavor`, `batch_key`, `do_scale`, `max_value`
@@ -75,6 +75,7 @@ Look at git state → Tune → Commit → Run → Read score →
 - **Commit every try**: git commit BEFORE running. This way you can always `git reset --hard HEAD~1` to revert.
 - **Crashes**: Dumb bug (typo, missing import)? Fix it, re-run. Fundamental broken idea? Log "crash", revert, move on.
 - **No scripts**: Do NOT write automation scripts. Hack `train.py` directly.
+
 
 ## Quick Reference
 
