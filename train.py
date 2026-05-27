@@ -23,7 +23,7 @@ class AutoResearchConfig:
     max_genes: int = 100000
     min_counts: int = 10
     max_counts: int = 100000
-    max_pct_mt: float = 20.0
+    max_pct_mt: float = 10.0
 
     # --Normalization--
     target_sum: int = 1000
