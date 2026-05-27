@@ -29,7 +29,7 @@ class AutoResearchConfig:
     target_sum: int = 1000
 
     # --Highly Variable Genes--
-    n_top_genes: int = 2000
+    n_top_genes: int = 4000
 
     # --Scaling--
     do_scale: bool = True
@@ -44,7 +44,7 @@ class AutoResearchConfig:
     metric: str = "euclidean"
 
     # --Clustering--
-    resolution: float = 0.6
+    resolution: float = 1.0
 
     #--Misc--
     random_seed: int = 42
