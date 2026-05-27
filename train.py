@@ -36,8 +36,8 @@ class AutoResearchConfig:
     max_value: Optional[float] = 10.0
 
     # --PCA--
-    n_pcs: int = 30
-    svd_solver: str = "arpack"
+    n_pcs: int = 60
+    svd_solver: str = "randomized"
 
     # --Neighborhood Graph--
     n_neighbors: int = 50
