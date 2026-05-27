@@ -20,9 +20,9 @@ import scanpy as sc
 class AutoResearchConfig:
     # --QC--
     min_genes: int = 1
-    max_genes: int = 10
-    min_counts: int = 100
-    max_counts: int = 1000
+    max_genes: int = 100000
+    min_counts: int = 10
+    max_counts: int = 100000
     max_pct_mt: float = 1
 
     # --Normalization--
@@ -302,7 +302,6 @@ def main():
     }
     scores["objective"] = compute_objective(scores)
 
-    save_umap(adata)
     save_scores(scores)
     append_results(config, scores)
     write_summary(scores, config)
