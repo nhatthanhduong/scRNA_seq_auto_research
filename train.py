@@ -36,12 +36,12 @@ class AutoResearchConfig:
     max_value: Optional[float] = 10.0
 
     # --PCA--
-    n_pcs: int = 10
+    n_pcs: int = 30
     svd_solver: str = "arpack"
 
     # --Neighborhood Graph--
-    n_neighbors: int = 20
-    metric: str = "cosine"
+    n_neighbors: int = 30
+    metric: str = "euclidean"
 
     # --Clustering--
     resolution: float = 0.8
