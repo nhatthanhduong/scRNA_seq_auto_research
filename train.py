@@ -302,9 +302,9 @@ def main():
     }
     scores["objective"] = compute_objective(scores)
 
-    save_umap(adata)
+    #save_umap(adata)
     #save_scores(scores)
-    #append_results(config, scores)
+    append_results(config, scores)
     #write_summary(scores, config)
 
     print(json.dumps(scores, indent=2))

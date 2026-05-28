@@ -42,8 +42,8 @@ objective = 0.4 × marker_coherence + 0.3 × cluster_stability
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd lims-single-cell
+git clone https://github.com/nhatthanhduong/scRNA_seq_auto_research
+cd scRNA_seq_auto_research
 
 # Create branch for experiments
 git checkout -b autoresearch/may26
@@ -52,7 +52,7 @@ git checkout -b autoresearch/may26
 uv sync
 
 # Prepare dataset (if not already present)
-uv run prepare.py
+uv run python prepare.py
 ```
 
 The `prepare.py` script downloads a human lung scRNA-seq dataset from CZ CELLxGENE Census, filtering for normal and COVID-19 samples and sampling up to 500 cells per cell type. Resulting cell types include T cells, B cells, natural killer cells, macrophages, monocytes, dendritic cells, epithelial cells, endothelial cells, and fibroblasts.
@@ -75,7 +75,7 @@ The pipeline follows a standard Scanpy workflow:
 
 ## Hyperparameter Tuning
 
-Edit `AutoResearchConfig` in `train.py` (lines 20-52) to tune parameters. Only this dataclass should be modified — do not change pipeline logic, `prepare.py`, or `pyproject.toml`.
+Edit `AutoResearchConfig` in `train.py` (lines 20-52) to tune parameters. Only this dataclass should be modified by the agent.
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -92,8 +92,6 @@ Edit `AutoResearchConfig` in `train.py` (lines 20-52) to tune parameters. Only t
 | `metric` | str | `"euclidean"` | Distance metric (`"cosine"` / `"euclidean"`) |
 | `resolution` | float | 0.8 | Leiden clustering resolution |
 | `random_seed` | int | 42 | Random seed for reproducibility |
-
-**Do not touch**: `flavor`, `batch_key`, `do_scale`, `max_value`
 
 ## Running the Agent
 
