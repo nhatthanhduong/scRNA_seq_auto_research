@@ -37,10 +37,10 @@ class AutoResearchConfig:
 
     # --PCA--
     n_pcs: int = 60
-    svd_solver: str = "randomized"
+    svd_solver: str = "arpack"
 
     # --Neighborhood Graph--
-    n_neighbors: int = 45
+    n_neighbors: int = 50
     metric: str = "euclidean"
 
     # --Clustering--
