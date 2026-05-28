@@ -143,6 +143,6 @@ random_seed=42
 | `output/summary.txt` | Human-readable config and scores summary |
 | `run.log` | Full stdout/stderr of the latest run |
 
-## License
+## References
 
-This project is for research and educational purposes.
+- Karpathy, A. (2026). *autoresearch*. https://github.com/karpathy/autoresearch
