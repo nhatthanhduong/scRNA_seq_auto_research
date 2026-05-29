@@ -95,30 +95,15 @@ Edit `AutoResearchConfig` in `train.py` (lines 20-52) to tune parameters. Only t
 
 **Do not touch**: `flavor`, `batch_key`, `do_scale`, `max_value`
 
-## Experiment Loop
+## Running the Agent
 
-The experiment runs an autonomous optimization loop:
+Spin up your AI coding agent (Claude, Codex, etc.) in this repository with appropriate permissions disabled, then prompt:
 
-1. **Check state** — note the current git branch/commit
-2. **Tune** — modify 1-3 `AutoResearchConfig` parameter defaults
-3. **Commit** — `git add -A && git commit -m "exp_N: try <params>=<values>"`
-4. **Run** — `uv run train.py > run.log 2>&1`
-5. **Evaluate** — parse the JSON objective score from `run.log`
-6. **Handle crashes** — if the run fails, fix typos/imports or log "crash" and move on
-7. **Record** — append a tab-separated row to `results.tsv` (do not commit this file)
-8. **Keep or discard** — if objective improved, keep the commit; otherwise `git reset --hard HEAD~1`
-9. **Repeat** — never stop
+> "Hi, have a look at program.md and let's start the experiment"
 
-```bash
-# Quick reference
-git checkout -b autoresearch/may26
-git add -A && git commit -m "exp_001: baseline defaults"
-uv run train.py > run.log 2>&1
-python -c "import sys,json; d=json.load(open('run.log')); print(d.get('objective','CRASH'))"
-tail -n 50 run.log  # on crash
-git reset --hard HEAD~1  # to revert
-echo -e "exp_002\t0.535\tresolution=0.8,n_neighbors=25" >> results.tsv
-```
+The agent will read `program.md` and `train.py`, then autonomously run the experiment loop — tuning hyperparameters, committing changes, running the pipeline, evaluating results, keeping or reverting commits, and repeating forever.
+
+Make sure the agent has filesystem read/write permission on the repository and terminal execution permission. Disable any external network or API access that isn't needed.
 
 ## Evaluation Metrics
 
