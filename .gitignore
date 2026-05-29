@@ -1,9 +1,7 @@
-/output
 /.venv
 /.claude
 /.ipynb_checkpoints
 *.pyc
 __pycache__/
-/data
 run.log
 results.tsv

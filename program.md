@@ -22,9 +22,9 @@ Edit `AutoResearchConfig` (train.py lines 20–52). Tunable params:
 | Param | Type | Range | Default |
 |-------|------|-------|---------|
 | `min_genes` | int | any | 1 |
-| `max_genes` | int | any | 10 |
+| `max_genes` | int | any | 100000 |
 | `min_counts` | int | any | 100 |
-| `max_counts` | int | any | 1000 |
+| `max_counts` | int | any | 100000 |
 | `max_pct_mt` | float | [1, 100] | 1 |
 | `target_sum` | int | any | 1000 |
 | `n_top_genes` | int | any | 100 |

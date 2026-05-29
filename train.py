@@ -37,10 +37,10 @@ class AutoResearchConfig:
 
     # --PCA--
     n_pcs: int = 60
-    svd_solver: str = "arpack"
+    svd_solver: str = "randomized"
 
     # --Neighborhood Graph--
-    n_neighbors: int = 50
+    n_neighbors: int = 45
     metric: str = "euclidean"
 
     # --Clustering--
@@ -302,9 +302,10 @@ def main():
     }
     scores["objective"] = compute_objective(scores)
 
-    save_scores(scores)
-    append_results(config, scores)
-    write_summary(scores, config)
+    save_umap(adata)
+    #save_scores(scores)
+    #append_results(config, scores)
+    #write_summary(scores, config)
 
     print(json.dumps(scores, indent=2))
 
